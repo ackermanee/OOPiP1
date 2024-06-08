@@ -1,8 +1,5 @@
-import java.util.List;
-
 public class Song extends MusicalComposition {
     private String genre;
-
     public Song(String title, String artist, int duration, String genre) {
         super(title, artist, duration);
         this.genre = genre;
@@ -14,7 +11,7 @@ public class Song extends MusicalComposition {
 
     @Override
     public String toString() {
-        return super.toString() + ", Жанр: " + genre;
+        return String.format("%s - %s (%d секунд) [Жанр: %s]", getTitle(), getArtist(), getDuration(), genre);
     }
 }
 

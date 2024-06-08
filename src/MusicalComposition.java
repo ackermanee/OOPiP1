@@ -5,6 +5,18 @@ public abstract class MusicalComposition {
     private String artist;
     private int duration; // in seconds
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
     public MusicalComposition(String title, String artist, int duration) {
         this.title = title;
         this.artist = artist;

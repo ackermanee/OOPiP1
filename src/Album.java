@@ -1,8 +1,8 @@
 import java.util.List;
 
 public class Album extends MusicalComposition {
-    private List<Song> songs;
 
+    private List<Song> songs;
     public Album(String title, String artist, int duration, List<Song> songs) {
         super(title, artist, duration);
         this.songs = songs;
@@ -19,5 +19,9 @@ public class Album extends MusicalComposition {
             sb.append("- ").append(song).append("\n");
         }
         return sb.toString();
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
     }
 }

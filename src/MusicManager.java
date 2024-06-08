@@ -5,11 +5,9 @@ import java.util.Scanner;
 
 public class MusicManager {
     private static final List<Album> albums = new ArrayList<>();
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-
         while (running) {
             showMenu();
             int choice = scanner.nextInt();
@@ -39,7 +37,6 @@ public class MusicManager {
                     break;
             }
         }
-
         System.out.println("Пока!");
     }
 
@@ -59,7 +56,6 @@ public class MusicManager {
         String title = scanner.nextLine();
         System.out.print("Введите имя исполнителя: ");
         String artist = scanner.nextLine();
-
         List<Song> songs = new ArrayList<>();
         boolean addingSongs = true;
         while (addingSongs) {
@@ -72,16 +68,17 @@ public class MusicManager {
             scanner.nextLine();
             System.out.print("Введите жанр песни: ");
             String songGenre = scanner.nextLine();
-
             Song song = new Song(songTitle, songArtist, songDuration, songGenre);
             songs.add(song);
-
             System.out.print("Добавить еще песню? (y/n) ");
             String addAnother = scanner.nextLine();
             addingSongs = addAnother.equalsIgnoreCase("y");
         }
 
-        int totalDuration = songs.stream().mapToInt(MusicalComposition::getDuration).sum();
+        int totalDuration = 0;
+        for (MusicalComposition song : songs) {
+            totalDuration += song.getDuration();
+        }
         Album album = new Album(title, artist, totalDuration, songs);
         albums.add(album);
         System.out.println("Альбом успешно добавлен.");
@@ -94,17 +91,26 @@ public class MusicManager {
     }
 
     private static void calculateTotalDuration() {
-        int totalDuration = albums.stream().mapToInt(MusicalComposition::getDuration).sum();
+        int totalDuration = 0;
+        for (Album album : albums) {
+            for (MusicalComposition song : album.getSongs()) {
+                totalDuration += song.getDuration();
+            }
+        }
         System.out.printf("Общая продолжительность всех альбомов: %d секунд%n", totalDuration);
     }
 
     private static void sortAlbumsByGenre() {
         Collections.sort(albums, (a1, a2) -> {
-            // Сравниваем первый жанр между альбомами
+            if (a1.getSongs().isEmpty() || a2.getSongs().isEmpty()) {
+                return 0;
+            }
+            // Сравниваем жанры первой песни между альбомами
             String genre1 = a1.getSongs().get(0).getGenre();
             String genre2 = a2.getSongs().get(0).getGenre();
-            return genre1.compareTo(genre2);
+            return genre1.compareToIgnoreCase(genre2);
         });
+
         System.out.println("Альбомы отсортированы по жанру.");
     }
 
